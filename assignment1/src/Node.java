@@ -6,12 +6,19 @@ public class Node {
     private int move;
     private int cost;                   //cost: g(n)
     private int remC;                   //heuristic function
-
+    private int depth;                  //used for DFS
     private Node parent;                //reference to parent node
 
     //default constructor
     public Node(String stateInput){
         this.state = stateInput;
+        depth = -1;
+    }
+
+    //overloaded constructor to keep track of node depth
+    public Node(String stateInput, int depth){
+        this.state = stateInput;
+        this.depth = depth;
     }
 
     //---------------GETTERS AND SETTERS--------------------
@@ -37,6 +44,14 @@ public class Node {
 
     public void setRemC(int remC) {
         this.remC = remC;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     public Node getParent() {

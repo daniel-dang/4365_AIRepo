@@ -128,8 +128,14 @@ public class Main {
     //-------------------------------TEST METHOD------------------------------
     public static void test(){
         String iniState = "BWWBxWBWWBB";
+        //String iniState = "WXBBW";
+
         DFS dfs = new DFS(iniState);
         Stack<Node> goalPath = dfs.search();
+
+        //BFS bfs = new BFS(iniState);
+        //Stack<Node> goalPath = bfs.search();
+
         printGoalPath(goalPath);
     }
 }
