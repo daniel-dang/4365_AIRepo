@@ -9,7 +9,7 @@ public class DFS extends SearchTree {
     private Node root;
     private Node parent;
 
-    private int absoluteDepth = 6;
+    private int absoluteDepth = 12;
     private int depthCutOff = 6;
     private Stack<Node> nodeList = new Stack<>();
 

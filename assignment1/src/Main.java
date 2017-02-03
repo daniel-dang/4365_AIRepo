@@ -130,11 +130,11 @@ public class Main {
         String iniState = "BWWBxWBWWBB";
         //String iniState = "WXBBW";
 
-        DFS dfs = new DFS(iniState);
-        Stack<Node> goalPath = dfs.search();
+        //DFS dfs = new DFS(iniState);
+        //Stack<Node> goalPath = dfs.search();
 
-        //BFS bfs = new BFS(iniState);
-        //Stack<Node> goalPath = bfs.search();
+        BFS bfs = new BFS(iniState);
+        Stack<Node> goalPath = bfs.search();
 
         printGoalPath(goalPath);
     }
