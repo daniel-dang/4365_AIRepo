@@ -3,6 +3,7 @@
  */
 public class Node {
     private String currentState;        //current state
+    private int move;
     private int cost;                   //cost: g(n)
     private int remC;                   //heuristic function
 
@@ -44,5 +45,13 @@ public class Node {
 
     public void setParent(Node parent) {
         this.parent = parent;
+    }
+
+    public int getMove() {
+        return move;
+    }
+
+    public void setMove(int move) {
+        this.move = move;
     }
 }

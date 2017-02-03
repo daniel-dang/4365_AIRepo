@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 
@@ -6,14 +7,10 @@ import java.util.Stack;
  * Created by Daniel Dang on 1/30/2017.
  */
 public class SearchTree {
-    private String iniState = "";
-    private Node root = null;
+    protected Stack<Node> path;
 
-    public SearchTree(String iniState){
-        this.iniState = iniState;
-        this.root = new Node(iniState);
-        this.root.setParent(null);
-    }
+    //default constructor
+    public SearchTree(){}
 
     /*
      * This method return a successor that randomly swapped between the x character and other available
@@ -64,27 +61,34 @@ public class SearchTree {
         int xLoc = 0;
         //Find X
         for (int i = 0; i < currState.length; i++){
-            if (currState[i] == 'x' || currState[i] == 'X')
+            if (currState[i] == 'x' || currState[i] == 'X') {
                 xLoc = i;
+                break;
+            }
         }
 
-        //In every state, all possible successor states is string.length - 1 - 1 = string.length - 2
+        //In every state, all possible successor states is string.length - 1
         ArrayList<Node> successors = new ArrayList<Node>();
         int stateCount = 0;
         int pivot = 0;
-        while(stateCount < (currState.length - 2)){
+        int moveC = 0;
+        while(stateCount < (currState.length - 1)){
             char temp = 0;
             if (pivot != xLoc){
+                char tempArr[] = Arrays.copyOf(currState, currState.length);
                 //swapping procedure; swap a x location to a different location in the array
-                currState[pivot] = temp;
-                currState[pivot] = currState[xLoc];
-                currState[xLoc] = temp;
+                temp = tempArr[pivot];
+                tempArr[pivot] = tempArr[xLoc];
+                tempArr[xLoc] = temp;
+
+                stateCount++;
+                Node successor = new Node(new String(tempArr));
+                successor.setMove(moveC);
+                successor.setParent(state);
+                successors.add(successor);
             }
             pivot++;
-            stateCount++;
-            Node successor = new Node(currState.toString());
-            successor.setParent(state);
-            successors.add(successor);
+            moveC++;
         }
         return successors;
     }
@@ -124,13 +128,13 @@ public class SearchTree {
      * Root node always null for parent pointer.
      */
     public Stack<Node> getPath(Node goal){
-        Stack<Node> path = new Stack<>();
-        if (goal.getParent() == null)
-            return path;
+        if (goal.getParent() == null) {
+            path.push(goal);
+        }
         else {
             path.push(goal);
             getPath(goal.getParent());
         }
-        return null;
+        return path;
     }
 }

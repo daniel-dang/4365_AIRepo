@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * Created by Daniel Dang on 1/28/2017.
@@ -11,7 +13,9 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String args[]){
-
+        //---------------------------------------------TEST CODE -------------------------------------------
+        test();
+        //-------------------------------------------------MAIN CODE----------------------------------------
         String fileName = "";
         String input = "";              //initial state
         Boolean variableCosts = false;  //true if -cost argument is included
@@ -99,9 +103,6 @@ public class Main {
             System.out.println("\tusage: java Main [-cost] <<BFS|DFS|UCS|GS|A-star> <inputfile>");
             System.out.println("\t   ex: java Main -cost BFS input.txt");
         }
-
-
-
     }
 
     public static String getInputs(String fileName) throws FileNotFoundException{
@@ -109,5 +110,17 @@ public class Main {
         Scanner sc = new Scanner(file);
         String input = sc.nextLine();
         return input;
+    }
+
+    //-------------------------------TEST METHOD------------------------------
+    public static void test(){
+        String iniState = "BWBWBWBWxWBBW";
+        BFS bfs = new BFS(iniState);
+        Node root = bfs.getRoot();
+        Stack<Node> goalPath = bfs.search();
+        while(!goalPath.isEmpty()){
+            Node temp = goalPath.pop();
+            System.out.println("Move " + temp.getMove() + " " + temp.getCurrentState());
+        }
     }
 }
