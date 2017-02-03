@@ -98,6 +98,50 @@ public class SearchTree {
         return successors;
     }
 
+    //overloaded version of previous function to add depth information to nodes
+    public ArrayList<Node> getAllSuccessors(Node state, int currDepth){
+        //return if initial state is empty
+        if (state.getState().equals(""))
+            return null;
+
+        //generate all the successors
+        char[] currState = processStr(state.getState());
+        int xLoc = 0;
+        //Find 'x'
+        for (int i = 0; i < currState.length; i++){
+            if (currState[i] == 'x' || currState[i] == 'X') {
+                xLoc = i;
+                break;
+            }
+        }
+
+        //In every state, all possible successor states is string.length - 1
+        ArrayList<Node> successors = new ArrayList<Node>();
+        int stateCount = 0;
+        int pivot = 0;
+        int moveC = 0;
+        while(stateCount < (currState.length - 1)){
+            char temp = 0;
+            if (pivot != xLoc){
+                char tempArr[] = Arrays.copyOf(currState, currState.length);
+                //swapping procedure; swap a x location to a different location in the array
+                temp = tempArr[pivot];
+                tempArr[pivot] = tempArr[xLoc];
+                tempArr[xLoc] = temp;
+
+                //adding newly created state to a new node
+                stateCount++;
+                Node successor = new Node(new String(tempArr), currDepth + 1);
+                successor.setMove(moveC);
+                successor.setParent(state);
+                successors.add(successor);
+            }
+            pivot++;
+            moveC++;
+        }
+        return successors;
+    }
+
     //convert state string into char array
     private char[] processStr(String stateDesc){
         char strArr[] = new char[stateDesc.length()];
@@ -116,7 +160,8 @@ public class SearchTree {
          * If nothing happen, passed all test, return true. Goal test achieved.
          */
         for (int i = 0; i < state.getState().length(); i++){
-            if (i == mid && state.getState().charAt(mid) != 'x')
+            if (i == mid && state.getState().charAt(mid) != 'x' &&
+                            state.getState().charAt(mid) != 'X')
                 return false;
             if ((i < mid) && (state.getState().charAt(i) != 'B'))
                 return false;
