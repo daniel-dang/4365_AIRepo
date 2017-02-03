@@ -16,18 +16,20 @@ public class SearchTree {
      * This method return a successor that randomly swapped between the x character and other available
      * place in the array.
      */
-    public Node getAccessor(Node state){
+    public Node getSuccessor(Node state){
         //return if initial state is empty
-        if (state.getCurrentState().equals(""))
+        if (state.getState().equals(""))
             return null;
 
         //Get location of 'x'
-        char[] currState = processStr(state.getCurrentState());
+        char[] currState = processStr(state.getState());
         int xLoc = 0;
-        //Find X
+        //Find 'x'
         for (int i = 0; i < currState.length; i++){
-            if (currState[i] == 'x' || currState[i] == 'X')
+            if (currState[i] == 'x' || currState[i] == 'X') {
                 xLoc = i;
+                break;
+            }
         }
 
         //Generate random number, repeat if random equal mid index.
@@ -39,13 +41,15 @@ public class SearchTree {
             randNum = rn.nextInt(currState.length);      //generate random number from 0 to array.length - 1, bound checked.
         }while(randNum == xLoc);
 
-        //swapping procedure; swap a x location to a different location in the array
+        //swapping procedure; swap an x location to a different location in the array
         char temp = 0;
-        currState[randNum] = temp;
+        temp = currState[randNum];
         currState[randNum] = currState[xLoc];
         currState[xLoc] = temp;
 
-        Node successor = new Node(currState.toString());
+        //make new node using the new swapped state
+        Node successor = new Node(new String(currState));
+        successor.setMove(state.getMove() + 1);
         successor.setParent(state);
 
         return successor;
@@ -53,13 +57,13 @@ public class SearchTree {
 
     public ArrayList<Node> getAllSuccessors(Node state){
         //return if initial state is empty
-        if (state.getCurrentState().equals(""))
+        if (state.getState().equals(""))
             return null;
 
         //generate all the successors
-        char[] currState = processStr(state.getCurrentState());
+        char[] currState = processStr(state.getState());
         int xLoc = 0;
-        //Find X
+        //Find 'x'
         for (int i = 0; i < currState.length; i++){
             if (currState[i] == 'x' || currState[i] == 'X') {
                 xLoc = i;
@@ -81,6 +85,7 @@ public class SearchTree {
                 tempArr[pivot] = tempArr[xLoc];
                 tempArr[xLoc] = temp;
 
+                //adding newly created state to a new node
                 stateCount++;
                 Node successor = new Node(new String(tempArr));
                 successor.setMove(moveC);
@@ -93,6 +98,7 @@ public class SearchTree {
         return successors;
     }
 
+    //convert state string into char array
     private char[] processStr(String stateDesc){
         char strArr[] = new char[stateDesc.length()];
         for (int i = 0; i < strArr.length; i++){
@@ -100,26 +106,24 @@ public class SearchTree {
         }
         return strArr;
     }
-    /*
-     * Only return true if the first half of the word is 'B' and second half of the word is 'W'
-     * return false otherwise.
-     */
-    public boolean checkGoalState(Node state){
-        boolean finalState = false;
-        int mid = state.getCurrentState().length() / 2;
-        for (int i = 0; i < mid; i++){
-            if (state.getCurrentState().charAt(i) == 'B')
-                finalState = true;
-            else
+
+    public boolean goalTest(Node state){
+        int mid = state.getState().length() / 2;
+        /*
+         * If middle character not 'x' => fail
+         * If character [0, mid - 1] not 'B' => fail
+         * If character [mid + 1, end] not 'W' => fail
+         * If nothing happen, passed all test, return true. Goal test achieved.
+         */
+        for (int i = 0; i < state.getState().length(); i++){
+            if (i == mid && state.getState().charAt(mid) != 'x')
+                return false;
+            if ((i < mid) && (state.getState().charAt(i) != 'B'))
+                return false;
+            if ((i > mid) && (state.getState().charAt(i) != 'W'))
                 return false;
         }
-        for (int i = mid + 1; i < state.getCurrentState().length(); i++){
-            if (state.getCurrentState().charAt(i) == 'W')
-                finalState = true;
-            else
-                return false;
-        }
-        return finalState;
+        return true;
     }
 
     /*

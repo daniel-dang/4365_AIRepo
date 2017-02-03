@@ -2,7 +2,7 @@
  * Created by Daniel Dang on 1/28/2017.
  */
 public class Node {
-    private String currentState;        //current state
+    private String state;        //current state
     private int move;
     private int cost;                   //cost: g(n)
     private int remC;                   //heuristic function
@@ -11,16 +11,16 @@ public class Node {
 
     //default constructor
     public Node(String stateInput){
-        this.currentState = stateInput;
+        this.state = stateInput;
     }
 
     //---------------GETTERS AND SETTERS--------------------
-    public String getCurrentState() {
-        return currentState;
+    public String getState() {
+        return state;
     }
 
-    public void setCurrentState(String currentState) {
-        this.currentState = currentState;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public int getCost() {

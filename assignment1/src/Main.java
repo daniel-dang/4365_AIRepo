@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -112,15 +111,25 @@ public class Main {
         return input;
     }
 
+    public static void printGoalPath(Stack<Node> goalPath){
+        int step = 0;
+        if (goalPath == null){
+            System.out.println("No solution.");
+        }
+        else {
+            System.out.println("Step " + (step++) + ": " + goalPath.pop().getState());
+            while (!goalPath.isEmpty()) {
+                Node temp = goalPath.pop();
+                System.out.println("Step " + (step++) + ": " + "Move " + temp.getMove() + " " + temp.getState());
+            }
+        }
+    }
+
     //-------------------------------TEST METHOD------------------------------
     public static void test(){
-        String iniState = "BWBWBWBWxWBBW";
-        BFS bfs = new BFS(iniState);
-        Node root = bfs.getRoot();
-        Stack<Node> goalPath = bfs.search();
-        while(!goalPath.isEmpty()){
-            Node temp = goalPath.pop();
-            System.out.println("Move " + temp.getMove() + " " + temp.getCurrentState());
-        }
+        String iniState = "BWWBxWBWWBB";
+        DFS dfs = new DFS(iniState);
+        Stack<Node> goalPath = dfs.search();
+        printGoalPath(goalPath);
     }
 }
