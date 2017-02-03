@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -14,14 +15,43 @@ public class SearchTree {
         this.root.setParent(null);
     }
 
-    public Node getAccessor(){
-        if (iniState.equals(""))
+    /*
+     * This method return a successor that randomly swapped between the x character and other available
+     * place in the array.
+     */
+    public Node getAccessor(Node state){
+        //return if initial state is empty
+        if (state.getCurrentState().equals(""))
             return null;
-        else{
 
+        //Get location of 'x'
+        char[] currState = processStr(state.getCurrentState());
+        int xLoc = 0;
+        //Find X
+        for (int i = 0; i < currState.length; i++){
+            if (currState[i] == 'x' || currState[i] == 'X')
+                xLoc = i;
         }
 
-        return null;
+        //Generate random number, repeat if random equal mid index.
+        int randNum = -1;
+        do {
+            //random generate a number between 0 to state.length
+            //pattern for generating random number [min,max] => (min + Random.nextInt(max - min) + 1)
+            Random rn = new Random();
+            randNum = rn.nextInt(currState.length);      //generate random number from 0 to array.length - 1, bound checked.
+        }while(randNum == xLoc);
+
+        //swapping procedure; swap a x location to a different location in the array
+        char temp = 0;
+        currState[randNum] = temp;
+        currState[randNum] = currState[xLoc];
+        currState[xLoc] = temp;
+
+        Node successor = new Node(currState.toString());
+        successor.setParent(state);
+
+        return successor;
     }
 
     public ArrayList<Node> getAllSuccessors(Node state){
