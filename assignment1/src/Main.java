@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -11,15 +12,21 @@ import java.util.Stack;
  * Run class
  */
 public class Main {
+
+    private static boolean variableCosts = false;    //true if -cost argument is included
+
+    public static boolean hasVariableCosts() {
+        return variableCosts;
+    }
+
     public static void main(String args[]){
         //---------------------------------------------TEST CODE -------------------------------------------
-        test();
+        //test();
         //-------------------------------------------------MAIN CODE----------------------------------------
         String fileName = "";
-        String input = "";              //initial state
-        Boolean variableCosts = false;  //true if -cost argument is included
+        String iniState = "";              //initial state
         int mode = 0;
-
+        Stack<Node> goalPath = null;
 
         //Get program mode from args
         //[-cost] <BFS|DFS|UCS|GS|A-star> <inputfile>
@@ -58,48 +65,64 @@ public class Main {
                 throw new Exception(); //invalid search type supplied
 
             //output if cost flag set
-            if(variableCosts)
-                System.out.println("Variable costs selected.");
+            //if(variableCosts)
+            //    System.out.println("Variable costs selected.");
+
+            //echo file name
+            fileName = args[args.length - 1];
+            //System.out.println("Input file \"" + fileName + "\" selected.");
+
+            //get input from file
+            iniState = getInputs(fileName);
+
+            //echo file contents
+            System.out.println(iniState);
 
             //output selected search type
             switch(mode) {
                 case 1:
-                    System.out.println("BFS selected.");
+                    //BFS selected
+                    //System.out.println("BFS selected.");
+                    BFS bfs = new BFS(iniState);
+                    goalPath = bfs.search();
                     break;
                 case 2:
-                    System.out.println("DFS selected.");
+                    //DFS selected
+                    //System.out.println("DFS selected.");
+                    DFS dfs = new DFS(iniState);
+                    goalPath = dfs.search();
                     break;
                 case 3:
-                    System.out.println("UCS selected.");
+                    //UCS selected
+                    //System.out.println("UCS selected.");
+                    UCS ucs = new UCS(iniState);
+                    goalPath = ucs.search();
                     break;
                 case 4:
-                    System.out.println("GS selected.");
+                    //GS selected
+                    //System.out.println("GS selected.");
+                    Greedy greedy = new Greedy(iniState);
+                    goalPath = greedy.search();
                     break;
                 case 5:
-                    System.out.println("A-star selected.");
+                    //A-star selected
+                    //System.out.println("A-star selected.");
+                    AStar astar = new AStar(iniState);
+                    goalPath = astar.search();
                     break;
                 default:
                     System.out.println("ERROR: invalid mode");
             }
 
-            //echo file name
-            fileName = args[args.length - 1];
-            System.out.println("Input file \"" + fileName + "\" selected.");
+            printGoalPath(goalPath);
 
-            //get input from file
-            try {
-                input = getInputs(fileName);
-            }
-            catch(FileNotFoundException e) {
-                System.out.println("\tERROR: file \"" + fileName + "\" not found.");
-            }
-
-            //echo file contents
-            System.out.println(input);
+        }
+        catch(FileNotFoundException f) {
+            System.out.println("\tERROR: file \"" + fileName + "\" not found.");
         }
         catch(Exception e) { // output error message
             System.out.println("ERROR: invalid arguments.");
-            System.out.println("\tusage: java Main [-cost] <<BFS|DFS|UCS|GS|A-star> <inputfile>");
+            System.out.println("\tusage: java Main [-cost] <BFS|DFS|UCS|GS|A-star> <inputfile>");
             System.out.println("\t   ex: java Main -cost BFS input.txt");
         }
     }
@@ -118,9 +141,18 @@ public class Main {
         }
         else {
             System.out.println("Step " + (step++) + ": " + goalPath.pop().getState());
-            while (!goalPath.isEmpty()) {
-                Node temp = goalPath.pop();
-                System.out.println("Step " + (step++) + ": " + "Move " + temp.getMove() + " " + temp.getState());
+            if(!variableCosts) {
+                while (!goalPath.isEmpty()) {
+                    Node temp = goalPath.pop();
+                    System.out.println("Step " + (step++) + ": " + "Move " + temp.getMove() + " " + temp.getState());
+                }
+            }
+            else {
+                while (!goalPath.isEmpty()) {
+                    Node temp = goalPath.pop();
+                    System.out.println("Step " + (step++) + ": " + "Move " + temp.getMove() + " " + temp.getState() +
+                            " (c=" + temp.getMoveCost() + ")");
+                }
             }
         }
     }
@@ -133,8 +165,14 @@ public class Main {
         //DFS dfs = new DFS(iniState);
         //Stack<Node> goalPath = dfs.search();
 
-        BFS bfs = new BFS(iniState);
-        Stack<Node> goalPath = bfs.search();
+        //BFS bfs = new BFS(iniState);
+        //Stack<Node> goalPath = bfs.search();
+
+        //Greedy greedy = new Greedy(iniState);
+        //Stack<Node> goalPath = greedy.search();
+
+        AStar astar = new AStar(iniState);
+        Stack<Node> goalPath = astar.search();
 
         printGoalPath(goalPath);
     }

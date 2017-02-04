@@ -9,7 +9,7 @@ public class DFS extends SearchTree {
     private Node root;
     private Node parent;
 
-    private int absoluteDepth = 12;
+    private int absoluteDepth = 10;
     private int depthCutOff = 6;
     private Stack<Node> nodeList = new Stack<>();
 
@@ -37,32 +37,34 @@ public class DFS extends SearchTree {
      */
     public Stack<Node> search(){
         Node currState = null;
-        //Loop until the queue is empty.
-        //If empty, return failure.
-        while(!nodeList.isEmpty()) {// && nodeList.peek().getDepth() != currDepth) {
-            currState = nodeList.pop();
-            if(currState.getDepth() < depthCutOff) {
-                //if goal test fail, do...
-                if (!goalTest(currState)) {
-                    ArrayList<Node> successors = getAllSuccessors(currState, currState.getDepth());
-                    for (int i = 0; i < successors.size(); i++) {
-                        nodeList.push(successors.get(i));
+
+        do {
+            //Loop until the queue is empty.
+            //If empty, return failure.
+            while (!nodeList.isEmpty()) {// && nodeList.peek().getDepth() != currDepth) {
+                currState = nodeList.pop();
+                if (currState.getDepth() < depthCutOff) {
+                    //if goal test fail, do...
+                    if (!goalTest(currState)) {
+                        ArrayList<Node> successors = getAllSuccessors(currState, currState.getDepth());
+                        for (int i = 0; i < successors.size(); i++) {
+                            nodeList.push(successors.get(i));
+                        }
+                    }
+                    //if goal test pass, return path
+                    else {
+                        return getPath(currState);
                     }
                 }
-                //if goal test pass, return path
-                else {
-                    return getPath(currState);
-                }
             }
-        }
 
-        //Using iterative deepening technique, i.e increase depth if no solution found.
-        if(currState.getDepth() == depthCutOff && depthCutOff <= absoluteDepth){
-            nodeList.clear();       //wipe the stack
-            nodeList.push(root);    //add back the root to the stack
-            depthCutOff++;          //increment depth cutoff
-            return search();        //start over
-        }
+            //Using iterative deepening technique, i.e increase depth if no solution found.
+            if (currState.getDepth() == depthCutOff) {
+                nodeList.clear();       //wipe the stack
+                nodeList.push(root);    //add back the root to the stack
+                depthCutOff++;          //increment depth cutoff
+            }
+        } while(depthCutOff <= absoluteDepth);
 
         return null;
     }
