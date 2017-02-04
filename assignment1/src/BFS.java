@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Daniel Dang on 1/28/2017.
@@ -44,11 +41,17 @@ public class BFS extends SearchTree{
         //If empty, return failure.
         while(!nodeList.isEmpty()) {
             Node currState = nodeList.poll();
+
+
+
             //if goal test fail, do...
             if (!goalTest(currState)) {
+                expandedStates.add(currState.getState());
                 ArrayList<Node> successors = getAllSuccessors(currState);
                 for (int i = 0; i < successors.size(); i++) {
-                    nodeList.add(successors.get(i));
+                    //skip if state already expanded
+                    if(!expandedStates.contains(successors.get(i).getState()))
+                        nodeList.add(successors.get(i));
                 }
             }
             //if goal test pass, return path

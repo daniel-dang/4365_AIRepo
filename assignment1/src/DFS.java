@@ -9,8 +9,8 @@ public class DFS extends SearchTree {
     private Node root;
     private Node parent;
 
-    private int absoluteDepth = 10;
-    private int depthCutOff = 6;
+    private int absoluteDepth = 12;
+    private int depthCutOff = 8;
     private Stack<Node> nodeList = new Stack<>();
 
     public DFS(String iniState){
@@ -43,7 +43,9 @@ public class DFS extends SearchTree {
             //If empty, return failure.
             while (!nodeList.isEmpty()) {// && nodeList.peek().getDepth() != currDepth) {
                 currState = nodeList.pop();
+
                 if (currState.getDepth() < depthCutOff) {
+
                     //if goal test fail, do...
                     if (!goalTest(currState)) {
                         ArrayList<Node> successors = getAllSuccessors(currState, currState.getDepth());

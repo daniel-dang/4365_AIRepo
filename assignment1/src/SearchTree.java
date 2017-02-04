@@ -1,16 +1,16 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Daniel Dang on 1/30/2017.
  */
 public class SearchTree {
     protected Stack<Node> path;
+    protected Set<String> expandedStates;
 
     //default constructor
-    public SearchTree(){}
+    public SearchTree(){
+        this.expandedStates = new HashSet<>();
+    }
 
     /*
      * This method return a successor that randomly swapped between the x character and other available

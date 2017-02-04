@@ -24,7 +24,7 @@ public class Main {
         //test();
         //-------------------------------------------------MAIN CODE----------------------------------------
         String fileName = "";
-        String iniState = "";              //initial state
+        String iniState;              //initial state
         int mode = 0;
         Stack<Node> goalPath = null;
 
@@ -118,7 +118,7 @@ public class Main {
 
         }
         catch(FileNotFoundException f) {
-            System.out.println("\tERROR: file \"" + fileName + "\" not found.");
+            System.out.println("ERROR: file \"" + fileName + "\" not found.");
         }
         catch(Exception e) { // output error message
             System.out.println("ERROR: invalid arguments.");
@@ -148,19 +148,22 @@ public class Main {
                 }
             }
             else {
+                Node last = null;
                 while (!goalPath.isEmpty()) {
                     Node temp = goalPath.pop();
                     System.out.println("Step " + (step++) + ": " + "Move " + temp.getMove() + " " + temp.getState() +
                             " (c=" + temp.getMoveCost() + ")");
+                    last = temp;
                 }
+                System.out.println("Total cost: " + last.getCost());
             }
         }
     }
 
     //-------------------------------TEST METHOD------------------------------
     public static void test(){
-        String iniState = "BWWBxWBWWBB";
-        //String iniState = "WXBBW";
+        //String iniState = "BWWBxWBWWBB";
+        String iniState = "WXBBW";
 
         //DFS dfs = new DFS(iniState);
         //Stack<Node> goalPath = dfs.search();

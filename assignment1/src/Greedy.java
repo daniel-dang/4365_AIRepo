@@ -39,14 +39,22 @@ public class Greedy extends SearchTree{
         //If empty, return failure.
         while(!nodeList.isEmpty()) {
             Node currState = nodeList.poll();
-            //if goal test fails, do...
+
+            //skip if state already expanded
+            if(expandedStates.contains(currState.getState()))
+                continue;
+
+            //if goal test fail, do...
             if (!goalTest(currState)) {
+                expandedStates.add(currState.getState());
                 ArrayList<Node> successors = getAllSuccessors(currState);
                 for (int i = 0; i < successors.size(); i++) {
-                    nodeList.add(successors.get(i));
+                    //skip if state already expanded
+                    if(!expandedStates.contains(successors.get(i).getState()))
+                        nodeList.add(successors.get(i));
                 }
             }
-            //if goal test passes, return path
+            //if goal test pass, return path
             else {
                 return getPath(currState);
             }
