@@ -22,9 +22,9 @@ Developed on both Windows and Mac OS X using the IntelliJ IDE
 
 1. Open a terminal and navigate to the directory containing the source code.
 2. Ensure that input files are in the same directory as the .java source code files.
-2. Execute the following command to compile all the java files:
+3. Execute the following command to compile all the java files:
 		javac *.java
-3. Execute the following command to run the program:
+4. Execute the following command to run the program:
 		java Main [-cost] <BFS|DFS|UCS|GS|A-star> <inputfile>
    ----------------------------------------
    Example usages:
