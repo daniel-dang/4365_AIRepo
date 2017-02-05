@@ -48,14 +48,17 @@ public class BFS extends SearchTree{
 
             //if goal test fail, do...
             if (!goalTest(currState)) {
-                //add current state to set of expanded states
-                expandedStates.add(currState.getState());
-                //expand node by generating successors
-                ArrayList<Node> successors = getAllSuccessors(currState);
-                for (int i = 0; i < successors.size(); i++) {
-                    //if successor state has not already been expanded, add successor to queue
-                    if(!expandedStates.contains(successors.get(i).getState()))
+                //check if current state has been expanded...
+                if(!expandedStates.contains(currState.getState())) {
+                    //...if not,
+                    //add current state to set of expanded states
+                    expandedStates.add(currState.getState());
+                    //expand node by generating successors
+                    ArrayList<Node> successors = getAllSuccessors(currState);
+                    for (int i = 0; i < successors.size(); i++) {
+                        //add successors to priority queue
                         nodeList.add(successors.get(i));
+                    }
                 }
             }
             //if goal test pass, return path
