@@ -4,12 +4,12 @@ import java.util.*;
  * Created by Daniel Dang on 1/30/2017.
  */
 public class SearchTree {
-    protected Stack<Node> path;
-    protected Set<String> expandedStates;
+    protected Stack<Node> path;             //stores path from goal state back to root
+    protected Set<String> expandedStates;   //stores states that have already been expanded
 
     //default constructor
     public SearchTree(){
-        this.expandedStates = new HashSet<>();
+        this.expandedStates = new HashSet<>();  //initialize set of explored states
     }
 
     /*
@@ -55,6 +55,11 @@ public class SearchTree {
         return successor;
     }
 
+
+    /*
+     * This method takes a Node as a parameter, generates all the successors of that Node's state,
+     * and returns an ArrayList of all the successors
+     */
     public ArrayList<Node> getAllSuccessors(Node state){
         //return if initial state is empty
         if (state.getState().equals(""))
@@ -71,11 +76,11 @@ public class SearchTree {
             }
         }
 
-        //In every state, all possible successor states is string.length - 1
+        //In every state, number of all possible successor states is string.length - 1
         ArrayList<Node> successors = new ArrayList<Node>();
-        int stateCount = 0;
-        int pivot = 0;
-        int moveC = 0;
+        int stateCount = 0; //number of successor states generated
+        int pivot = 0;  //index to be swapped with X
+        int moveC = 0;  //tile moved to generate successor
         while(stateCount < (currState.length - 1)){
             char temp = 0;
             if (pivot != xLoc){
@@ -90,7 +95,7 @@ public class SearchTree {
                 Node successor = new Node(new String(tempArr));
                 successor.setMove(moveC);
                 successor.setParent(state);
-                successors.add(successor);
+                successors.add(successor); //add new successor to ArrayList of successors
             }
             pivot++;
             moveC++;
@@ -98,7 +103,8 @@ public class SearchTree {
         return successors;
     }
 
-    //overloaded version of previous function to add depth information to nodes
+
+    //overloaded version of previous function to add depth information to nodes, for use with DFS
     public ArrayList<Node> getAllSuccessors(Node state, int currDepth){
         //return if initial state is empty
         if (state.getState().equals(""))
@@ -115,11 +121,11 @@ public class SearchTree {
             }
         }
 
-        //In every state, all possible successor states is string.length - 1
+        //In every state, number of all possible successor states is string.length - 1
         ArrayList<Node> successors = new ArrayList<Node>();
-        int stateCount = 0;
-        int pivot = 0;
-        int moveC = 0;
+        int stateCount = 0; //number of successor states generated
+        int pivot = 0;  //index to be swapped with X
+        int moveC = 0;  //tile moved to generate successor
         while(stateCount < (currState.length - 1)){
             char temp = 0;
             if (pivot != xLoc){
@@ -129,7 +135,7 @@ public class SearchTree {
                 tempArr[pivot] = tempArr[xLoc];
                 tempArr[xLoc] = temp;
 
-                //adding newly created state to a new node
+                //adding newly created state to a new node with depth information
                 stateCount++;
                 Node successor = new Node(new String(tempArr), currDepth + 1);
                 successor.setMove(moveC);
