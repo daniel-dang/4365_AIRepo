@@ -10,8 +10,6 @@ public class DFS extends SearchTree {
     private Node root;
     private Node parent;
 
-    private int absoluteDepth = 20; //using iterative deepening, max depth
-    private int depthCutOff = 10; //depth if first iteration, increases as needed to find solution
     private Stack<Node> nodeList = new Stack<>(); //FILO data structure
 
     public DFS(String iniState){
@@ -44,47 +42,27 @@ public class DFS extends SearchTree {
     public Stack<Node> search(){
         Node currState = null;
 
-        do {
-            //Loop until the queue is empty.
-            //If empty, return failure.
-            while (!nodeList.isEmpty()) {// && nodeList.peek().getDepth() != currDepth) {
-                currState = nodeList.pop();
-                //only attempt to expand if within depth cut off
-                if (currState.getDepth() < depthCutOff) {
-                    //if goal test fail, do...
-                    if (!goalTest(currState)) {
-                        //check if state already visited along path
-                        if(!pathToRootContains(currState, currState.getState())) {
-                            ArrayList<Node> successors = getAllSuccessors(currState, currState.getDepth());
-                            //push successors onto stack in reverse order (so, for example, 'move 0' is popped before 'move 4')
-                            for (int i = successors.size() - 1; i >= 0; i--) {
-                                nodeList.push(successors.get(i));
-                            }
-                        }
-                    }
-                    //if goal test pass, return path
-                    else {
-                        return getPath(currState);
+        //Loop until the queue is empty.
+        //If empty, return failure.
+        while (!nodeList.isEmpty()) {// && nodeList.peek().getDepth() != currDepth) {
+            currState = nodeList.pop();
+            //if goal test fail, do...
+            if (!goalTest(currState)) {
+                //check if state already expanded
+                if(!expandedStates.contains(currState.getState())) {
+                    expandedStates.add(currState.getState());
+                    ArrayList<Node> successors = getAllSuccessors(currState);
+                    //push successors onto stack in reverse order (so, for example, 'move 0' is popped before 'move 4')
+                    for (int i = successors.size() - 1; i >= 0; i--) {
+                        nodeList.push(successors.get(i));
                     }
                 }
             }
-
-            //Using iterative deepening technique, i.e increase depth if no solution found.
-            nodeList.clear();       //wipe the stack
-            nodeList.push(root);    //add back the root to the stack
-            depthCutOff++;          //increment depth cutoff
-        } while(depthCutOff <= absoluteDepth);
-
+            //if goal test pass, return path
+            else {
+                return getPath(currState);
+            }
+        }
         return null;
-    }
-
-    //returns true if path from node to root contains a certain state
-    public boolean pathToRootContains(Node node, String state) {
-        if(node == getRoot()) //node is root node and no match found
-            return false;
-        else if(node.getParent().getState().equalsIgnoreCase(state)) //match found
-            return true;
-        else
-            return pathToRootContains(node.getParent(), state); // recursively check if match found
     }
 }

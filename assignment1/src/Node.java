@@ -8,20 +8,17 @@ public class Node {
     private int cost;            //total cost: g(n)
     private int moveCost;        //cost of the single move
     private int remC;            //heuristic function; number of characters out of place
-    private int depth;           //depth of node; used for DFS depth cut off
     private Node parent;         //reference to parent node
 
     //default constructor
     public Node(String stateInput){
         this.state = stateInput;
-        depth = -1; //no depth information given
         calcRemC(); //calculate heuristic
     }
 
     //overloaded constructor to keep track of node depth
     public Node(String stateInput, int depth){
         this.state = stateInput;
-        this.depth = depth;
     }
 
     //calculates how many characters are out of place [h(n)]
@@ -108,14 +105,6 @@ public class Node {
 
     public void setRemC(int remC) {
         this.remC = remC;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
     }
 
     public Node getParent() {
