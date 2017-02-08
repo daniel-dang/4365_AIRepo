@@ -13,7 +13,7 @@ public class DFS extends SearchTree {
 
     public DFS(String iniState){
         this.iniState = iniState;
-        this.root = new Node(this.iniState, 0);
+        this.root = new Node(this.iniState);
         this.root.setParent(null);
         nodeList.push(root);
         this.path = new Stack<>();

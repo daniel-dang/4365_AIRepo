@@ -3,22 +3,24 @@
  * Co-authored by Mavis Francia.
  */
 public class Node {
+
+    private static int numNodes = 0;     //number of nodes generated so far
+
     private String state;        //current state
     private int move;            //move executed to arrive at state
     private int cost;            //total cost: g(n)
     private int moveCost;        //cost of the single move
     private int remC;            //heuristic function; number of characters out of place
     private Node parent;         //reference to parent node
+    private int nodeNum;         //order node created (also order node added to queue)
 
     //default constructor
     public Node(String stateInput){
         this.state = stateInput;
         calcRemC(); //calculate heuristic
-    }
+        numNodes++; //increment number of nodes
+        nodeNum = numNodes; //assign node number to node
 
-    //overloaded constructor to keep track of node depth
-    public Node(String stateInput, int depth){
-        this.state = stateInput;
     }
 
     //calculates how many characters are out of place [h(n)]
@@ -127,5 +129,9 @@ public class Node {
 
     public void setMove(int move) {
         this.move = move;
+    }
+
+    public int getNodeNum() {
+        return nodeNum;
     }
 }
