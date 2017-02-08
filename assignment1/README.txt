@@ -16,7 +16,7 @@ Daniel Dang and Mavis Francia
 Developed on both Windows and Mac OS X using the IntelliJ IDE
 
 ========== KNOWN PROBLEMS ==========
-[none]
+DFS will have very long solution paths for large input sizes (but does check for already expanded states, expands in order of preceding move number, and will find a solution).
 
 ======== HOW TO RUN PROGRAM ========
 
