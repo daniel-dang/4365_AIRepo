@@ -8,7 +8,6 @@ import java.util.Stack;
 public class DFS extends SearchTree {
     private String iniState;
     private Node root;
-    private Node parent;
 
     private Stack<Node> nodeList = new Stack<>(); //FILO data structure
 
@@ -40,12 +39,11 @@ public class DFS extends SearchTree {
      * 5) if L is empty, return failure
      */
     public Stack<Node> search(){
-        Node currState = null;
 
         //Loop until the queue is empty.
         //If empty, return failure.
         while (!nodeList.isEmpty()) {// && nodeList.peek().getDepth() != currDepth) {
-            currState = nodeList.pop();
+            Node currState = nodeList.pop();
             //if goal test fail, do...
             if (!goalTest(currState)) {
                 //check if state already expanded

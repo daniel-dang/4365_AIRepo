@@ -7,7 +7,6 @@ import java.util.*;
 public class Greedy extends SearchTree{
     private String iniState;
     private Node root;
-    private Node parent;
 
     //priority queue based on greedy heuristic function: least estimated cost remaining
     private PriorityQueue<Node> nodeList = new PriorityQueue<>(10, new GreedyComparator());

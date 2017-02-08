@@ -9,7 +9,6 @@ import java.util.*;
 public class BFS extends SearchTree{
     private String iniState;
     private Node root;
-    private Node parent;
 
     //FIFO data structure
     private Queue<Node> nodeList = new LinkedList<>();
