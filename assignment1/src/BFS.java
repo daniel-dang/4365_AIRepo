@@ -44,7 +44,6 @@ public class BFS extends SearchTree{
         //If empty, return failure.
         while(!nodeList.isEmpty()) {
             Node currState = nodeList.poll();
-
             //if goal test fail, do...
             if (!goalTest(currState)) {
                 //check if current state has been expanded...

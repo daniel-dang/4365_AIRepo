@@ -116,6 +116,7 @@ public class Main {
 
     //gets input line from file
     public static String getInputs(String fileName) throws FileNotFoundException{
+        //System.out.println(new File(".").getAbsoluteFile());
         File file = new File(fileName);
         Scanner sc = new Scanner(file);
         String input = sc.nextLine();
