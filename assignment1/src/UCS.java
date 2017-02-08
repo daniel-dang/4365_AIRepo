@@ -7,7 +7,6 @@ import java.util.*;
 public class UCS extends SearchTree{
     private String iniState;
     private Node root;
-    private Node parent;
 
     //priority queue based on least movement cost
     private PriorityQueue<Node> nodeList = new PriorityQueue<>(10, new UCSComparator());
