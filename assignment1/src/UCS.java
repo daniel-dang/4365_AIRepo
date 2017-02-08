@@ -17,7 +17,6 @@ public class UCS extends SearchTree{
         this.root = new Node(this.iniState);
         this.root.setParent(null);
         nodeList.add(root);
-        //nodeListNC.add(root);
         this.path = new Stack<>();
     }
 
